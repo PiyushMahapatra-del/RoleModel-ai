@@ -1,0 +1,26 @@
+[
+  {
+    "timestamp": "2026-08-09T12:32:29.137Z",
+    "walletAddress": "UTC2K6CKHYFYWDNBBNQV7SBK6FPUXVPZC2D3N5IP4UW5JU4Q4PSUJYURPE",
+    "endpoint": "/code-debug",
+    "cost": "$0.01",
+    "txId": "EDC6IHSY2ZECNF4OERJR4OFLJFDKNO5XNAGYGE5KD3MIRZUZPMEA",
+    "summaryResult": "c++: 2 bug(s), O(N^2) time"
+  },
+  {
+    "timestamp": "2026-08-09T19:38:04.260Z",
+    "walletAddress": "UTC2K6CKHYFYWDNBBNQV7SBK6FPUXVPZC2D3N5IP4UW5JU4Q4PSUJYURPE",
+    "endpoint": "/code-debug",
+    "cost": "$0.01",
+    "txId": "W63IQQU44THLQQJQB6ZPAFTFT4AMPJ6WGBSBL56ZP2TE74HDYLIQ",
+    "summaryResult": "c++: 1 bug(s), O(N) on average, O(N^2) in the worst-case due to hash collisions time"
+  },
+  {
+    "timestamp": "2026-08-09T19:41:41.793Z",
+    "walletAddress": "UTC2K6CKHYFYWDNBBNQV7SBK6FPUXVPZC2D3N5IP4UW5JU4Q4PSUJYURPE",
+    "endpoint": "/code-debug",
+    "cost": "$0.01",
+    "txId": "WSNBDF77FLDCV6TUHSCMAU5Q5TPGIH4GONKO5OACFMFZOQWI2UCQ",
+    "summaryResult": "c++: 1 bug(s), O(1) time"
+  }
+]
