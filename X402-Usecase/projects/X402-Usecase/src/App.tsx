@@ -153,8 +153,8 @@ const AppShell: React.FC = () => {
       <div className="px-6 pt-8 pb-6 border-b-2 border-ink">
         {/* Stark Brutalist Logo */}
         <div className="flex items-baseline gap-2">
-          <span className="font-display text-[26px] font-extrabold tracking-tight text-ink">Placement</span>
-          <span className="font-display text-[26px] font-extrabold italic text-accent">Prep</span>
+          <span className="font-display text-[26px] font-extrabold tracking-tight text-ink">RoleModel</span>
+          <span className="font-display text-[26px] font-extrabold italic text-accent">AI</span>
         </div>
         {/* Technical Specification Label */}
         <div className="mt-2 flex items-center gap-2">
@@ -196,7 +196,7 @@ const AppShell: React.FC = () => {
       
       {/* Mobile top bar (Brutalist Panel) */}
       <div className="fixed inset-x-0 top-0 z-40 flex items-center justify-between border-b-2 border-ink bg-panel px-5 py-4 shadow-sm md:hidden">
-        <span className="font-display text-lg font-extrabold text-ink">Placement <span className="italic text-accent">Prep</span></span>
+        <span className="font-display text-lg font-extrabold text-ink">RoleModel <span className="italic text-accent">AI</span></span>
         <button
           onClick={() => setSidebarOpen((v) => !v)}
           className="rounded-[4px] border-2 border-ink bg-panel px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-ink active:translate-y-[2px] active:translate-x-[2px] shadow-[2px_2px_0px_0px_#1E1E1E] active:shadow-none transition-all duration-150"
