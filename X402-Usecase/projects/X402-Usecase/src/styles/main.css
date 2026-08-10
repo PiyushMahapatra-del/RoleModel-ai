@@ -28,7 +28,8 @@
     @apply bg-chassis text-ink font-display antialiased;
   }
 
-  h1, h2, h3, .font-display {
+  /* Fixed Circular Dependency: Removed .font-display from this list */
+  h1, h2, h3 {
     @apply tracking-tight font-display font-bold;
   }
 
