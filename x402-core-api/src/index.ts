@@ -39,9 +39,9 @@ function tooLong(...values: (string | undefined)[]): boolean {
 }
 
 // ════════════════════════════════════════════════════════════════════
-// 1. RESUME-TO-ROLE MATCHER — POST /api/resume-match
+// 1. RESUME-TO-ROLE MATCHER — POST /resume-match
 // ════════════════════════════════════════════════════════════════════
-app.post('/api/resume-match', async (c) => {
+app.post('/resume-match', async (c) => {
   try {
     const body = await c.req.json();
     const { resumeText, jobDescription } = body;
@@ -61,9 +61,9 @@ app.post('/api/resume-match', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 2. JOB DESCRIPTION & OA EXTRACTOR — POST /api/job-extract
+// 2. JOB DESCRIPTION & OA EXTRACTOR — POST /job-extract
 // ════════════════════════════════════════════════════════════════════
-app.post('/api/job-extract', async (c) => {
+app.post('/job-extract', async (c) => {
   try {
     const body = await c.req.json();
     const { rawText } = body;
@@ -83,9 +83,9 @@ app.post('/api/job-extract', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 3. OA CODE DEBUGGER & EDGE-CASE AUDITOR — POST /api/code-debug
+// 3. OA CODE DEBUGGER & EDGE-CASE AUDITOR — POST /code-debug
 // ════════════════════════════════════════════════════════════════════
-app.post('/api/code-debug', async (c) => {
+app.post('/code-debug', async (c) => {
   try {
     const body = await c.req.json();
     const { code, language, context } = body;
@@ -109,9 +109,9 @@ app.post('/api/code-debug', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 4. RESUME RATER & IMPACT ENHANCER — POST /api/resume-rate
+// 4. RESUME RATER & IMPACT ENHANCER — POST /resume-rate
 // ════════════════════════════════════════════════════════════════════
-app.post('/api/resume-rate', async (c) => {
+app.post('/resume-rate', async (c) => {
   try {
     const body = await c.req.json();
     const { resumeText } = body;
@@ -131,9 +131,9 @@ app.post('/api/resume-rate', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 5. COLD EMAIL & LINKEDIN OUTREACH GENERATOR — POST /api/cold-email
+// 5. COLD EMAIL & LINKEDIN OUTREACH GENERATOR — POST /cold-email
 // ════════════════════════════════════════════════════════════════════
-app.post('/api/cold-email', async (c) => {
+app.post('/cold-email', async (c) => {
   try {
     const body = await c.req.json();
     const { candidateProfile, recruiterDetails } = body;
@@ -153,9 +153,9 @@ app.post('/api/cold-email', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 6. STAR STORY TRANSFORMER — POST /api/star-transform
+// 6. STAR STORY TRANSFORMER — POST /star-transform
 // ════════════════════════════════════════════════════════════════════
-app.post('/api/star-transform', async (c) => {
+app.post('/star-transform', async (c) => {
   try {
     const body = await c.req.json();
     const { rawNotes } = body;
@@ -175,9 +175,9 @@ app.post('/api/star-transform', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 7. REPO README PITCH GENERATOR — POST /api/repo-pitch
+// 7. REPO README PITCH GENERATOR — POST /repo-pitch
 // ════════════════════════════════════════════════════════════════════
-app.post('/api/repo-pitch', async (c) => {
+app.post('/repo-pitch', async (c) => {
   try {
     const body = await c.req.json();
     const { projectTitle, techDescription } = body;
@@ -197,9 +197,9 @@ app.post('/api/repo-pitch', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 8. OA PATTERN PREDICTOR — POST /api/oa-predictor
+// 8. OA PATTERN PREDICTOR — POST /oa-predictor
 // ════════════════════════════════════════════════════════════════════
-app.post('/api/oa-predictor', async (c) => {
+app.post('/oa-predictor', async (c) => {
   try {
     const body = await c.req.json();
     const { companyName, targetRole } = body;
@@ -219,9 +219,9 @@ app.post('/api/oa-predictor', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 9. PROMPT-INJECTION / INPUT GUARD AUDITOR — POST /api/prompt-guard
+// 9. PROMPT-INJECTION / INPUT GUARD AUDITOR — POST /prompt-guard
 // ════════════════════════════════════════════════════════════════════
-app.post('/api/prompt-guard', async (c) => {
+app.post('/prompt-guard', async (c) => {
   try {
     const body = await c.req.json();
     const { inputText } = body;
@@ -241,14 +241,9 @@ app.post('/api/prompt-guard', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 10. ATOMIC APPLICATION SPRINT (AGGREGATOR) — POST /api/atomic-app-sprint
-//
-// Runs Job Extraction + Resume Matching + Cold Email generation as one
-// logical unit of work behind a single x402 payment. Job extraction and
-// resume matching run in parallel (they're independent), then the cold
-// email is generated using the extracted role title as context.
+// 10. ATOMIC APPLICATION SPRINT (AGGREGATOR) — POST /atomic-app-sprint
 // ════════════════════════════════════════════════════════════════════
-app.post('/api/atomic-app-sprint', async (c) => {
+app.post('/atomic-app-sprint', async (c) => {
   try {
     const body = await c.req.json();
     const { jobPosting, resumeText } = body;
@@ -288,12 +283,9 @@ app.post('/api/atomic-app-sprint', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// RESULT PERSISTENCE LAYER — Scan History per Wallet
-// Non-gated: no x402 payment is required to log or read scan history.
+// RESULT PERSISTENCE LAYER
 // ════════════════════════════════════════════════════════════════════
 
-// Logs a completed (already-paid) scan. Called by the frontend immediately
-// after it decodes the on-chain settlement receipt for a successful call.
 app.post('/history', async (c) => {
   try {
     const body = await c.req.json();
@@ -316,7 +308,6 @@ app.post('/history', async (c) => {
   }
 });
 
-// Fetches scan history for a connected wallet, newest first.
 app.get('/history/:walletAddress', (c) => {
   const walletAddress = c.req.param('walletAddress');
   if (!walletAddress) {
@@ -326,7 +317,15 @@ app.get('/history/:walletAddress', (c) => {
   return c.json({ walletAddress, count: records.length, records });
 });
 
+// ════════════════════════════════════════════════════════════════════
+// SERVER STARTUP (Render Compatible)
+// ════════════════════════════════════════════════════════════════════
+
 const port = Number(process.env.PORT) || 4022;
-serve({ fetch: app.fetch, port }, () => {
-  console.log(`🚀 Placement Prep OS Core API running on http://localhost:${port}`);
+serve({ 
+  fetch: app.fetch, 
+  port,
+  hostname: '0.0.0.0' // CRITICAL for Render to expose the server properly
+}, (info) => {
+  console.log(`🚀 Placement Prep OS Core API running on http://0.0.0.0:${info.port}`);
 });
