@@ -23,15 +23,12 @@ export const handleProxyRequest = (targetUrl: string) => {
       console.log(`[PROXY] Incoming path: ${requestPath}`);
       console.log(`[PROXY] Forwarding paid request to: ${fullUrl}`);
 
-      // 2. Foolproof Headers:
-      // Strip headers that trigger cloud security walls or break routing
+      // 2. Foolproof Headers: Aggressively strip everything to pass Render's firewall
       const headers = new Headers();
-      c.req.raw.headers.forEach((value, key) => {
-        const keyLower = key.toLowerCase();
-        if (!['host', 'connection', 'content-length', 'origin', 'referer', 'accept-encoding'].includes(keyLower)) {
-          headers.set(key, value);
-        }
-      });
+      const contentType = c.req.header('content-type');
+      if (contentType) {
+        headers.set('Content-Type', contentType);
+      }
 
       const options: RequestInit = {
         method: c.req.method,
@@ -48,11 +45,11 @@ export const handleProxyRequest = (targetUrl: string) => {
       // 4. Execute Fetch
       const response = await fetch(fullUrl, options);
 
-      const contentType = response.headers.get('content-type') || '';
+      const responseContentType = response.headers.get('content-type') || '';
       let responseData;
       
       try {
-        if (contentType.includes('application/json')) {
+        if (responseContentType.includes('application/json')) {
           responseData = await response.json();
         } else {
           responseData = await response.text();
@@ -69,7 +66,7 @@ export const handleProxyRequest = (targetUrl: string) => {
         return c.json(responseData, response.status as any);
       }
       
-      return contentType.includes('application/json') 
+      return responseContentType.includes('application/json') 
         ? c.json(responseData, response.status as any)
         : c.text(responseData, response.status as any);
       
