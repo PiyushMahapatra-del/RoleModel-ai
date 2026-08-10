@@ -10,7 +10,7 @@ interface StatusBannerProps {
 const STAGE_COPY: Record<Exclude<PaymentStage, 'idle' | 'error'>, string> = {
   connecting: 'Waiting for wallet connection…',
   signing: 'Sign the payment request in your wallet…',
-  processing: 'Payment settled — analyzing with Placement Prep OS…',
+  processing: 'Payment settled — analyzing with RoleModel AI…',
   success: 'Done — results below.',
 };
 

@@ -1,5 +1,5 @@
 /**
- * Placement Prep OS - Endpoints Configuration
+ * RoleModel AI - Endpoints Configuration
  *
  * Defines every payment-protected x402 endpoint exposed by this resource
  * server. Each entry maps an HTTP method + path to its USDC price on

@@ -1,4 +1,4 @@
-# Placement Prep OS
+# RoleModel AI
 
 An on-demand, pay-per-use career and interview-prep micro-API, built on the
 [x402 protocol](https://algorand.co/agentic-commerce/x402) over Algorand

@@ -327,5 +327,5 @@ serve({
   port,
   hostname: '0.0.0.0' // CRITICAL for Render to expose the server properly
 }, (info) => {
-  console.log(`🚀 Placement Prep OS Core API running on http://0.0.0.0:${info.port}`);
+  console.log(`🚀 RoleModel AI Core API running on http://0.0.0.0:${info.port}`);
 });

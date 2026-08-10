@@ -1,5 +1,5 @@
 /**
- * Placement Prep OS - Prompt Library
+ * RoleModel AI - Prompt Library
  *
  * One builder function per micro-service. Centralizing prompts here keeps
  * src/index.ts focused on routing/validation, and lets aggregator endpoints

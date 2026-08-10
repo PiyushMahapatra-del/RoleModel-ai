@@ -1,5 +1,5 @@
 /**
- * Placement Prep OS - x402 Resource Server
+ * RoleModel AI - x402 Resource Server
  *
  * Payment-protected micro-API for on-demand career and interview
  * preparation, built on the x402 protocol over Algorand TestNet.
@@ -46,7 +46,7 @@ if (!avmAddress || !facilitatorUrl) {
 }
 
 console.log('\n' + '═'.repeat(60));
-console.log('PLACEMENT PREP OS - x402 Resource Server');
+console.log('RoleModel AI - x402 Resource Server');
 console.log('═'.repeat(60));
 console.log('Configuration:');
 console.log(`  Network: ${IS_MAINNET ? 'Algorand MainNet ⚠️' : 'Algorand TestNet'}`);
@@ -223,7 +223,7 @@ app.notFound((c) => {
 // ════════════════════════════════════════════════════════════════════
 
 serve({ fetch: app.fetch, port }, () => {
-  console.log('\n✅ Placement Prep OS resource server is running!\n');
+  console.log('\n✅ RoleModel AI resource server is running!\n');
   console.log('═'.repeat(60));
   console.log('Endpoints:');
   console.log(`  API:     http://localhost:${port}`);

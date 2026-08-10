@@ -68,7 +68,7 @@ const RepoPitch: React.FC = () => {
           <label className="pp-eyebrow">Project Title</label>
           <input
             className="pp-field"
-            placeholder="e.g. Placement Prep OS"
+            placeholder="e.g. RoleModel AI"
             value={projectTitle}
             onChange={(e) => setProjectTitle(e.target.value)}
             disabled={isBusy}
