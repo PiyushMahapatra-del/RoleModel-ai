@@ -1,10 +1,29 @@
-import { payAndFetchJson, WalletSigner, SettlementReceipt } from './x402Client';
+import { payAndFetchJson as originalPayAndFetchJson, WalletSigner, SettlementReceipt } from './x402Client';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4021';
 
 export interface PaidResult<T> {
   data: T;
   receipt: SettlementReceipt | null;
+}
+
+// ─── 🛡️ Safety Wrapper: JSON Parsing Interceptor ────────────────────
+// Prevents Vercel 504 Timeout HTML pages from crashing the React frontend.
+async function payAndFetchJson<T>(
+  endpointUrl: string,
+  signer: WalletSigner,
+  body: unknown,
+  costUsdc: string
+): Promise<{ data: T; receipt: SettlementReceipt | null }> {
+  try {
+    return await originalPayAndFetchJson<T>(endpointUrl, signer, body, costUsdc);
+  } catch (error: any) {
+    // If the error message contains HTML from a server timeout or crash
+    if (error.message && (error.message.includes('<!DOCTYPE') || error.message.includes('<html'))) {
+      throw new Error('Server timeout: The backend is waking up or processing failed. Please wait 30 seconds and try again.');
+    }
+    throw error;
+  }
 }
 
 // ─── Result Persistence Layer (Scan History) ────────────────────────
@@ -24,10 +43,16 @@ export interface HistoryRecord {
 }
 
 export async function fetchScanHistory(walletAddress: string): Promise<HistoryRecord[]> {
-  const response = await fetch(`${API_BASE_URL}/history/${encodeURIComponent(walletAddress)}`);
+  const response = await fetch(`${API_BASE_URL}/api/history/${encodeURIComponent(walletAddress)}`);
+  
   if (!response.ok) {
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('text/html')) {
+      throw new Error('Server timeout: The backend is waking up. Please wait 30 seconds and try again.');
+    }
     throw new Error(`Failed to load scan history (HTTP ${response.status})`);
   }
+  
   const body = (await response.json()) as { records: HistoryRecord[] };
   return body.records || [];
 }
@@ -40,7 +65,7 @@ async function recordScanHistory(
   summaryResult: string
 ): Promise<void> {
   try {
-    await fetch(`${API_BASE_URL}/history`, {
+    await fetch(`${API_BASE_URL}/api/history`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ walletAddress, endpoint, cost, txId, summaryResult }),
@@ -61,10 +86,19 @@ async function payAndLog<TResponse>(
   costUsdc: string,
   summarize: (data: TResponse) => string
 ): Promise<PaidResult<TResponse>> {
-  const { data, receipt } = await payAndFetchJson<TResponse>(`${API_BASE_URL}${endpointPath}`, signer, body, costUsdc);
+  
+  // NOTE: Assuming your backend routes are prefixed with /api based on previous setup
+  const fullEndpointPath = endpointPath.startsWith('/api') ? endpointPath : `/api${endpointPath}`;
+  
+  const { data, receipt } = await payAndFetchJson<TResponse>(
+    `${API_BASE_URL}${fullEndpointPath}`, 
+    signer, 
+    body, 
+    costUsdc
+  );
 
   if (receipt) {
-    void recordScanHistory(signer.address, endpointPath, costUsdc, receipt.transaction, summarize(data));
+    void recordScanHistory(signer.address, fullEndpointPath, costUsdc, receipt.transaction, summarize(data));
   }
 
   return { data, receipt };
