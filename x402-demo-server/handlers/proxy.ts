@@ -8,33 +8,44 @@ import { Context } from 'hono';
 export const handleProxyRequest = (targetUrl: string) => {
   return async (c: Context) => {
     try {
-      console.log(`[PROXY] Forwarding paid request to: ${targetUrl}`);
+      // 1. Foolproof URL Construction:
+      // Ensure we explicitly append the specific feature path (e.g. /repo-pitch)
+      const requestPath = c.req.path;
+      let fullUrl = targetUrl;
+      
+      // If the targetUrl doesn't already contain the path, append it safely
+      if (!fullUrl.endsWith(requestPath)) {
+         fullUrl = `${targetUrl.replace(/\/$/, '')}${requestPath}`;
+      }
 
-      // Forward headers (excluding host and connection headers)
+      console.log(`[PROXY] Incoming path: ${requestPath}`);
+      console.log(`[PROXY] Forwarding paid request to: ${fullUrl}`);
+
+      // 2. Foolproof Headers:
+      // Strip headers that trigger cloud security walls or break routing
       const headers = new Headers();
       c.req.raw.headers.forEach((value, key) => {
-        if (!['host', 'connection', 'content-length'].includes(key.toLowerCase())) {
+        const keyLower = key.toLowerCase();
+        if (!['host', 'connection', 'content-length', 'origin', 'referer', 'accept-encoding'].includes(keyLower)) {
           headers.set(key, value);
         }
       });
 
-      // Prepare fetch options
       const options: RequestInit = {
         method: c.req.method,
         headers,
       };
 
-      // Forward body if applicable
+      // 3. Foolproof Body Handling:
+      // Use arrayBuffer() instead of blob() for stable Node.js server-to-server streaming
       if (['POST', 'PUT', 'PATCH'].includes(c.req.method)) {
-        // Clone the request so we can read the body
-        const reqClone = c.req.raw.clone();
-        options.body = await reqClone.blob();
+        const buffer = await c.req.arrayBuffer();
+        options.body = buffer;
       }
 
-      // Execute proxy request
-      const response = await fetch(targetUrl, options);
+      // 4. Execute Fetch
+      const response = await fetch(fullUrl, options);
 
-      // Read response data
       const contentType = response.headers.get('content-type') || '';
       let responseData;
       
@@ -43,7 +54,6 @@ export const handleProxyRequest = (targetUrl: string) => {
           responseData = await response.json();
         } else {
           responseData = await response.text();
-          // Try to coerce it to JSON if it failed but we want an error object
           if (!response.ok) {
             responseData = { error: responseData };
           }
@@ -53,7 +63,7 @@ export const handleProxyRequest = (targetUrl: string) => {
       }
 
       if (!response.ok) {
-        console.warn(`[PROXY] Microservice returned ${response.status} error.`);
+        console.warn(`[PROXY] Core API returned ${response.status} error.`);
         return c.json(responseData, response.status as any);
       }
       
@@ -62,8 +72,8 @@ export const handleProxyRequest = (targetUrl: string) => {
         : c.text(responseData, response.status as any);
       
     } catch (error) {
-      console.error(`[PROXY] Error forwarding request to ${targetUrl}:`, error);
-      return c.json({ error: error instanceof Error ? error.message : 'Internal Gateway Error' }, 502);
+      console.error(`[PROXY] Error forwarding request:`, error);
+      return c.json({ error: 'Internal Gateway Error: Could not connect to Core API.' }, 502);
     }
   };
 };
