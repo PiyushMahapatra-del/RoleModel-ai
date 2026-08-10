@@ -1,36 +1,23 @@
-/* Import the engineered typography (Inter for UI, JetBrains Mono for Technical) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+/* Import the Neo-Brutalist typography stack */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    /* ─── The Industrial Physics Engine ─── */
-    /* 45-degree top-left lighting constraints for physical depth */
-    --shadow-card: 8px 8px 16px #babecc, -8px -8px 16px #ffffff;
-    --shadow-floating: 12px 12px 24px #babecc, -12px -12px 24px #ffffff, inset 1px 1px 0 rgba(255,255,255,0.5);
-    --shadow-pressed: inset 6px 6px 12px #babecc, inset -6px -6px 12px #ffffff;
-    --shadow-recessed: inset 4px 4px 8px #babecc, inset -4px -4px 8px #ffffff;
-    
-    /* Specific shadows for the Safety Orange accent buttons */
-    --shadow-btn-accent: 4px 4px 8px rgba(166,50,60,0.4), -4px -4px 8px rgba(255,100,110,0.4);
-    --shadow-btn-accent-pressed: inset 4px 4px 8px rgba(0,0,0,0.2), inset -4px -4px 8px rgba(255,255,255,0.2);
-  }
-
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    /* Level 0: The base plastic chassis everything is mounted to */
-    @apply bg-chassis text-ink font-display antialiased;
+    /* The stark off-white paper background */
+    @apply bg-chassis text-ink font-sans antialiased;
   }
 
-  /* Fixed Circular Dependency: Removed .font-display from this list */
+  /* Heavy geometric display fonts for titles (no circular dependencies) */
   h1, h2, h3 {
-    @apply tracking-tight font-display font-bold;
+    @apply tracking-tight font-display font-extrabold text-ink;
   }
 
   ::selection {
@@ -42,17 +29,11 @@
   /* ─── Layout primitives (Cards & Panels) ───────────────────────── */
   
   .pp-bento {
-    @apply bg-chassis rounded-[16px] p-6 md:p-8 shadow-[var(--shadow-card)] border-none transition-all duration-300 relative overflow-hidden;
-  }
-  .pp-bento:hover {
-    @apply -translate-y-1 shadow-[var(--shadow-floating)];
+    @apply bg-panel border-2 border-ink p-6 md:p-8 shadow-brutal transition-all duration-150 relative rounded-[4px];
   }
 
   .pp-bento-tight {
-    @apply bg-chassis rounded-[16px] p-4 shadow-[var(--shadow-card)] border-none transition-all duration-300 relative;
-  }
-  .pp-bento-tight:hover {
-    @apply -translate-y-[2px] shadow-[var(--shadow-floating)];
+    @apply bg-panel border-2 border-ink p-4 shadow-brutal transition-all duration-150 relative rounded-[4px];
   }
 
   .pp-bento-grid {
@@ -60,84 +41,79 @@
   }
 
   .pp-section-label, .pp-eyebrow {
-    @apply font-mono text-[11px] font-bold uppercase tracking-widest text-ink-muted;
+    @apply font-mono text-[11px] font-extrabold uppercase tracking-widest text-ink;
   }
 
-  /* ─── Inputs & forms (Recessed Data Slots) ─────────────────────── */
+  /* ─── Inputs & forms (Redesigned Input Fields) ─────────────────────── */
 
-  /* Upgraded from flat bottom-borders to fully recessed physical slots */
   .pp-field, .pp-field-soft, .pp-select {
-    @apply w-full bg-chassis rounded-lg px-4 py-3.5 
-           shadow-[var(--shadow-recessed)] border-none outline-none 
-           font-mono text-sm text-ink placeholder:text-ink-muted/50
-           transition-all duration-300;
+    @apply w-full bg-panel border-2 border-ink px-4 py-3.5 
+           font-mono text-sm text-ink placeholder:text-ink-muted
+           shadow-brutal transition-all duration-150 outline-none rounded-[4px];
   }
   
   .pp-field:focus, .pp-field-soft:focus, .pp-select:focus {
-    /* Simulates an LED backlight turning on inside the recessed well */
-    @apply shadow-[var(--shadow-recessed),0_0_0_2px_#ff4757];
+    /* Focus snaps to the brutalist red */
+    @apply border-accent shadow-brutal;
   }
 
   .pp-field:disabled, .pp-field-soft:disabled, .pp-select:disabled {
-    @apply opacity-50 cursor-not-allowed;
+    /* Disabled inputs sit flat against the background */
+    @apply opacity-50 cursor-not-allowed shadow-none translate-x-[4px] translate-y-[4px];
   }
 
   .pp-code-block {
-    /* Dark technical panel recessed into the chassis */
-    @apply overflow-x-auto rounded-xl bg-ink p-5 font-mono text-[13px] leading-relaxed text-chassis shadow-[var(--shadow-recessed)];
+    @apply overflow-x-auto rounded-[4px] bg-panel border-2 border-ink p-5 font-mono text-[13px] leading-relaxed text-ink shadow-brutal;
   }
 
-  /* ─── x402 payment trigger (Physical Keys) ─────────────────────── */
+  /* ─── x402 payment trigger (The CTA Button) ─────────────────────── */
 
   .pp-btn-pay {
-    @apply relative inline-flex items-center gap-0 overflow-hidden rounded-xl bg-accent
-           font-mono text-sm font-bold tracking-wider uppercase text-white 
-           transition-all duration-150 border border-white/20
-           shadow-[var(--shadow-btn-accent)];
+    /* Solid black block, heavy border, white text */
+    @apply relative inline-flex items-center gap-0 bg-ink border-2 border-ink
+           font-mono text-sm font-extrabold tracking-widest uppercase text-white 
+           transition-all duration-150 shadow-brutal cursor-pointer rounded-[4px];
   }
 
   .pp-btn-pay:hover:not(:disabled) {
-    @apply brightness-110;
+    @apply bg-ink/90;
   }
 
   .pp-btn-pay:active:not(:disabled) {
-    /* Mechanics: Pushes INTO the surface on click */
-    @apply translate-y-[2px] shadow-[var(--shadow-btn-accent-pressed)] border-transparent;
+    /* Mechanical press: Shift down & right, remove shadow entirely */
+    @apply translate-x-[4px] translate-y-[4px] shadow-brutal-active;
   }
 
   .pp-btn-pay:disabled {
-    /* Dead physical state */
-    @apply cursor-not-allowed opacity-60 shadow-[var(--shadow-card)] bg-chassis text-ink-muted border-none;
+    @apply cursor-not-allowed opacity-60 shadow-none translate-x-[4px] translate-y-[4px] bg-ink-muted border-ink-muted text-panel;
   }
 
   .pp-btn-pay > .pp-btn-pay-label {
-    @apply py-3.5 pl-6 pr-5 drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)];
+    @apply py-3.5 pl-6 pr-5;
   }
 
   .pp-price-badge {
-    /* Recessed dark screen embedded inside the button */
-    @apply ml-1 flex items-center self-stretch bg-black/20
-           px-4 text-xs font-mono shadow-[inset_4px_0px_8px_rgba(0,0,0,0.15)]
-           border-l border-black/20 text-white/90;
+    @apply flex items-center self-stretch bg-panel text-ink border-l-2 border-ink
+           px-4 text-xs font-mono font-bold;
   }
 
   .pp-btn-pay:disabled .pp-price-badge {
-    @apply bg-black/5 text-ink-muted/50 shadow-none border-black/5;
+    @apply bg-ink-muted border-ink-muted text-panel;
   }
 
-  /* Secondary action — Flat labels that become physical on hover */
+  /* Secondary action */
   .pp-btn-ghost {
-    @apply inline-flex items-center gap-1.5 rounded-lg border-transparent px-4 py-2
-           font-mono text-xs font-bold uppercase tracking-widest text-ink-muted 
-           bg-transparent transition-all duration-150 shadow-none;
+    @apply inline-flex items-center gap-1.5 border-2 border-transparent px-4 py-2
+           font-mono text-xs font-extrabold uppercase tracking-widest text-ink 
+           bg-transparent transition-all duration-150 shadow-none rounded-[4px];
   }
   
   .pp-btn-ghost:hover:not(:disabled) {
-    @apply bg-chassis shadow-[var(--shadow-card)] text-ink;
+    @apply bg-panel border-ink shadow-brutal;
   }
   
   .pp-btn-ghost:active:not(:disabled) {
-    @apply translate-y-[1px] shadow-[var(--shadow-pressed)] bg-recessed border-transparent;
+    @apply translate-x-[4px] translate-y-[4px] shadow-brutal-active;
   }
   
   .pp-btn-ghost:disabled {
@@ -151,8 +127,7 @@
   }
 
   .pp-status-dot {
-    /* Physical unlit LED */
-    @apply h-2.5 w-2.5 flex-shrink-0 rounded-full bg-ink-muted/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.5),0_1px_1px_rgba(255,255,255,0.8)];
+    @apply h-2.5 w-2.5 flex-shrink-0 border-2 border-ink bg-panel;
   }
 
   .pp-status-error {
@@ -160,8 +135,7 @@
   }
   
   .pp-status-error .pp-status-dot {
-    /* Glowing alert LED */
-    @apply bg-accent shadow-[0_0_8px_rgba(255,71,87,0.8)] animate-pulse;
+    @apply bg-accent border-ink;
   }
 
   .pp-spinner {
@@ -171,46 +145,45 @@
   /* ─── On-chain settlement receipt ────────────────────────────────── */
 
   .pp-receipt {
-    /* Machined groove separator */
-    @apply flex flex-col gap-2 border-t-2 border-recessed pt-4 mt-2 shadow-[0_-1px_0_rgba(255,255,255,0.8)];
+    @apply flex flex-col gap-2 border-t-2 border-ink pt-4 mt-2;
   }
 
   .pp-receipt-row {
-    @apply flex items-center justify-between font-mono text-xs text-ink-muted font-medium;
+    @apply flex items-center justify-between font-mono text-xs text-ink font-bold;
   }
 
   .pp-verified-badge {
-    /* Matches success LED green */
     @apply inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[#22c55e];
   }
 
   /* ─── Sidebar navigation ─────────────────────────────────────────── */
 
   .pp-nav-group-label {
-    @apply px-5 pb-2 pt-7 font-mono text-[10px] font-bold uppercase tracking-widest text-ink-muted/60 first:pt-0;
+    @apply px-5 pb-2 pt-7 font-mono text-[10px] font-extrabold uppercase tracking-widest text-ink-muted first:pt-0;
   }
 
   .pp-nav-item {
-    @apply block w-[calc(100%-1rem)] mx-2 px-4 py-2.5 text-left font-display text-[14px] font-medium
-           text-ink-muted transition-all duration-200 rounded-lg
-           hover:bg-panel hover:shadow-[var(--shadow-card)] hover:text-ink;
+    @apply block w-[calc(100%-1rem)] mx-2 px-4 py-2.5 text-left font-display text-[15px] font-bold text-ink transition-all duration-150 rounded-[4px] border-2 border-transparent;
+  }
+
+  .pp-nav-item:hover {
+    @apply bg-panel border-ink shadow-brutal;
   }
 
   .pp-nav-item-active {
-    /* Pushed in like a physical radio-button toggle */
-    @apply bg-recessed shadow-[var(--shadow-recessed)] text-ink font-bold hover:shadow-[var(--shadow-recessed)] hover:bg-recessed;
+    /* Active sidebar item becomes a stark red block with a shadow */
+    @apply bg-accent text-white border-ink shadow-brutal hover:bg-accent hover:text-white;
   }
 
-  /* ─── Chips / tags (Physical Pills) ────────────────────────────── */
+  /* ─── Chips / tags ────────────────────────────── */
 
   .pp-chip, .pp-chip-ochre, .pp-chip-sage {
-    /* Upgraded from flat tags to raised physical modules */
-    @apply inline-flex items-center justify-center bg-chassis px-3 py-1.5 
-           rounded-full text-xs font-mono font-bold text-ink-muted 
-           shadow-[var(--shadow-card)] transition-all duration-300 border-none;
+    @apply inline-flex items-center justify-center bg-panel px-3 py-1.5 
+           border-2 border-ink font-mono text-xs font-bold text-ink 
+           shadow-[2px_2px_0px_0px_#1E1E1E] transition-all duration-150 rounded-[4px];
   }
   
-  .pp-chip:hover, .pp-chip-ochre:hover, .pp-chip-sage:hover {
-    @apply shadow-[var(--shadow-floating)] -translate-y-[1px] text-accent;
+  .pp-chip:hover, .pp-chip-ochre, .pp-chip-sage:hover {
+    @apply translate-x-[2px] translate-y-[2px] shadow-[0px_0px_0px_0px_#1E1E1E] bg-accent text-white border-ink;
   }
 }

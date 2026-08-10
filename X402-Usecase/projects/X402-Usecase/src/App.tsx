@@ -136,7 +136,7 @@ const renderTool = (id: ToolId) => {
 }
 
 const AppShell: React.FC = () => {
-  const [activeTool, setActiveTool] = useState<ToolId>('resume-rate')
+  const [activeTool, setActiveTool] = useState<ToolId>('repo-pitch')
   const [openWalletModal, setOpenWalletModal] = useState<boolean>(false)
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
   const { activeAddress } = useWallet()
@@ -150,22 +150,22 @@ const AppShell: React.FC = () => {
 
   const sidebarContent = (
     <>
-      <div className="px-6 pt-8 pb-4">
-        {/* Embossed Hardware Logo */}
-        <div className="flex items-baseline gap-2 drop-shadow-[0_1px_1px_#ffffff]">
-          <span className="font-display text-[24px] font-extrabold tracking-tight text-ink">Placement</span>
-          <span className="font-display text-[24px] font-bold italic text-accent">Prep</span>
+      <div className="px-6 pt-8 pb-6 border-b-2 border-ink">
+        {/* Stark Brutalist Logo */}
+        <div className="flex items-baseline gap-2">
+          <span className="font-display text-[26px] font-extrabold tracking-tight text-ink">Placement</span>
+          <span className="font-display text-[26px] font-extrabold italic text-accent">Prep</span>
         </div>
         {/* Technical Specification Label */}
         <div className="mt-2 flex items-center gap-2">
-          <div className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_rgba(255,71,87,0.8)] animate-pulse" />
-          <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted font-bold drop-shadow-[0_1px_0_#ffffff]">
-            OS // x402
+          <div className="h-2 w-2 bg-accent border-2 border-ink" />
+          <span className="font-mono text-[10px] font-extrabold uppercase tracking-widest text-ink">
+            OS // X402
           </span>
         </div>
       </div>
 
-      <nav className="mt-2 flex-1 overflow-y-auto pb-6">
+      <nav className="mt-2 flex-1 overflow-y-auto pb-6 pt-4">
         {NAV_GROUPS.map((group) => (
           <div key={group.label} className="mb-4">
             <div className="pp-nav-group-label">{group.label}</div>
@@ -184,79 +184,66 @@ const AppShell: React.FC = () => {
         ))}
       </nav>
 
-      {/* Raised bottom panel section for the wallet */}
-      <div className="border-t border-white/60 p-4 bg-panel shadow-[0_-1px_2px_rgba(0,0,0,0.05)]">
+      {/* Heavy bordered bottom panel for wallet */}
+      <div className="border-t-2 border-ink p-4 bg-panel">
         <WalletBar onOpenWalletModal={toggleWalletModal} />
       </div>
     </>
   )
 
   return (
-    <div className="flex min-h-screen bg-chassis text-ink md:h-screen md:overflow-hidden relative">
+    <div className="flex min-h-screen bg-chassis text-ink md:h-screen md:overflow-hidden relative selection:bg-accent selection:text-white">
       
-      {/* ─── The Physics Engine Noise Texture ─── */}
-      {/* Simulates the micro-texture of injection-molded matte plastic */}
-      <div 
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.03] mix-blend-multiply" 
-        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}
-      ></div>
-
-      {/* Mobile top bar (Raised Panel) */}
-      <div className="fixed inset-x-0 top-0 z-40 flex items-center justify-between border-b border-white/60 bg-panel px-5 py-4 shadow-sm md:hidden">
-        <span className="font-display text-lg font-bold text-ink drop-shadow-[0_1px_0_#ffffff]">Placement <span className="italic text-accent">Prep</span></span>
+      {/* Mobile top bar (Brutalist Panel) */}
+      <div className="fixed inset-x-0 top-0 z-40 flex items-center justify-between border-b-2 border-ink bg-panel px-5 py-4 shadow-sm md:hidden">
+        <span className="font-display text-lg font-extrabold text-ink">Placement <span className="italic text-accent">Prep</span></span>
         <button
           onClick={() => setSidebarOpen((v) => !v)}
-          className="rounded-md shadow-[var(--shadow-card)] bg-chassis px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-ink-muted active:shadow-[var(--shadow-pressed)] active:translate-y-[1px]"
+          className="rounded-[4px] border-2 border-ink bg-panel px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-ink active:translate-y-[2px] active:translate-x-[2px] shadow-[2px_2px_0px_0px_#1E1E1E] active:shadow-none transition-all duration-150"
         >
           Menu
         </button>
       </div>
 
-      {/* Left sidebar — Elevated structural panel */}
+      {/* Left sidebar — Heavy bordered panel */}
       <aside
-        className={`fixed inset-y-0 left-0 z-30 flex w-72 flex-col border-r border-white/50 bg-panel shadow-[4px_0_24px_rgba(0,0,0,0.05)] transition-transform duration-200 md:sticky md:top-0 md:h-screen md:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-30 flex w-72 flex-col border-r-2 border-ink bg-panel transition-transform duration-200 md:sticky md:top-0 md:h-screen md:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {sidebarContent}
       </aside>
 
-      {sidebarOpen && <div className="fixed inset-0 z-20 bg-black/20 backdrop-blur-sm md:hidden" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && <div className="fixed inset-0 z-20 bg-ink/20 backdrop-blur-sm md:hidden" onClick={() => setSidebarOpen(false)} />}
 
-      {/* Right canvas — The recessed workspace */}
-      <main className="flex-1 overflow-y-auto pt-16 md:h-screen md:pt-0 relative z-10">
-        <div className="mx-auto max-w-3xl px-6 py-16 md:px-16 md:py-24">
+      {/* Right canvas — The off-white paper workspace */}
+      <main className="flex-1 overflow-y-auto pt-20 md:h-screen md:pt-0 relative z-10">
+        <div className="mx-auto max-w-4xl px-6 py-12 md:px-16 md:py-20">
           
           {/* Header Area */}
-          <div className="mb-14 border-b border-black/5 pb-8 shadow-[0_1px_0_rgba(255,255,255,0.8)]">
-            <div className="pp-eyebrow mb-3 flex items-center gap-2">
-              <div className="h-1 w-1 bg-ink-muted/50 rounded-full" />
+          <div className="mb-14 border-b-2 border-ink pb-8">
+            <div className="pp-eyebrow mb-3 flex items-center gap-2 text-accent">
+              <div className="h-2 w-2 bg-accent border-2 border-ink" />
               {NAV_GROUPS.find((g) => g.items.some((i) => i.id === activeTool))?.label}
             </div>
-            <p className="mt-2 font-display text-2xl font-bold tracking-tight text-ink drop-shadow-[0_1px_0_#ffffff]">
+            <p className="mt-2 font-display text-3xl font-extrabold tracking-tight text-ink">
               {TOOL_BLURBS[activeTool]}
             </p>
           </div>
 
           {!activeAddress ? (
-            <div className="pp-bento flex flex-col items-center justify-center gap-6 py-20 text-center relative">
-              {/* Manufacturing Detail: Screws in the corners */}
-              <div className="absolute top-4 left-4 h-2 w-2 rounded-full bg-recessed shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),0_1px_0_rgba(255,255,255,0.8)]" />
-              <div className="absolute top-4 right-4 h-2 w-2 rounded-full bg-recessed shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),0_1px_0_rgba(255,255,255,0.8)]" />
-              <div className="absolute bottom-4 left-4 h-2 w-2 rounded-full bg-recessed shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),0_1px_0_rgba(255,255,255,0.8)]" />
-              <div className="absolute bottom-4 right-4 h-2 w-2 rounded-full bg-recessed shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3),0_1px_0_rgba(255,255,255,0.8)]" />
-
-              {/* Physical hardware slot simulation */}
-              <div className="h-16 w-16 rounded-xl shadow-[var(--shadow-recessed)] bg-chassis flex items-center justify-center border-t border-black/10">
-                <svg className="w-8 h-8 text-ink-muted/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <div className="pp-bento flex flex-col items-center justify-center gap-6 py-20 text-center">
+              {/* Brutalist icon block */}
+              <div className="h-16 w-16 rounded-[4px] shadow-brutal bg-panel flex items-center justify-center border-2 border-ink">
+                <svg className="w-8 h-8 text-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
               
               <div className="max-w-sm mx-auto">
-                <h2 className="font-display text-xl font-bold text-ink drop-shadow-[0_1px_0_#ffffff]">System Offline</h2>
-                <p className="mt-3 text-[14px] leading-relaxed text-ink-muted font-medium">
-                  Authentication required. Insert a testnet wallet holding USDC to unlock terminal features.
+                <h2 className="font-display text-2xl font-extrabold text-ink uppercase tracking-tight">System Offline</h2>
+                <p className="mt-3 text-[15px] leading-relaxed text-ink font-medium">
+                  Authentication required. Connect a testnet wallet holding USDC to unlock terminal features.
                 </p>
               </div>
               

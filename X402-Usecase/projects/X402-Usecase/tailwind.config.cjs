@@ -4,19 +4,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // ─── Industrial Skeuomorphism Design Tokens ─────────────────
-        chassis: '#e0e5ec',     // Base industrial grey (Level 0)
-        panel: '#f0f2f5',       // Lighter raised surface (Level +1)
-        recessed: '#d1d9e6',    // Darker sunken areas (Level -1)
+        // ─── Neo-Brutalism Design Tokens ──────────────────────────
+        chassis: '#F4F5F0',     // Off-white paper background for the canvas
+        panel: '#FFFFFF',       // Pure white for cards, sidebars, and inputs
         
         ink: {
-          DEFAULT: '#2d3436',   // Primary dark charcoal text
-          muted: '#4a5568',     // Secondary slate grey text/labels
+          DEFAULT: '#1E1E1E',   // Stark, almost-black for heavy borders and text
+          muted: '#6B7280',     // Secondary grey for labels
         },
         
         accent: {
-          DEFAULT: '#ff4757',   // Safety Orange / Braun Red
-          foreground: '#ffffff',// Text on accent
+          DEFAULT: '#E04F43',   // The Brutalist Red accent
+          foreground: '#FFFFFF',// Text on accent backgrounds
         },
 
         // ─── Legacy Aliases ─────────────────────────────────────────
@@ -44,8 +43,8 @@ module.exports = {
         }
       },
       fontFamily: {
-        // Updated to the Industrial typography stack
-        display: ['"Inter"', 'system-ui', 'sans-serif'],
+        // Heavy geometric fonts for titles, clean sans for UI, strict mono for labels
+        display: ['"Space Grotesk"', '"Clash Display"', 'sans-serif'], 
         sans: ['"Inter"', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
@@ -54,12 +53,11 @@ module.exports = {
         widest: '0.2em',
       },
       boxShadow: {
-        // Industrial Physics Engine Shadows (maps to your index.css root variables)
-        card: 'var(--shadow-card)',
-        floating: 'var(--shadow-floating)',
-        pressed: 'var(--shadow-pressed)',
-        recessed: 'var(--shadow-recessed)',
-        glow: '0 0 10px 2px rgba(255, 71, 87, 0.6)',
+        // Neo-Brutalist Hard Shadows (100% opacity, sharp offsets)
+        'brutal': '4px 4px 0px 0px #1E1E1E',
+        'brutal-lg': '8px 8px 0px 0px #1E1E1E',
+        'brutal-active': '0px 0px 0px 0px #1E1E1E', // Replaces shadow when pressed
+        
         // Legacy hairline retained for un-migrated elements
         hairline: '0 1px 1px rgba(18, 18, 18, 0.03)',
       },
@@ -69,23 +67,25 @@ module.exports = {
     themes: [
       {
         placementPrep: {
-          // DaisyUI theme remapped to the Industrial palette
-          primary: '#2d3436',           // ink
-          'primary-content': '#e0e5ec', // chassis
-          secondary: '#4a5568',         // ink-muted
-          'secondary-content': '#f0f2f5', // panel
-          accent: '#ff4757',            // safety orange
-          'accent-content': '#ffffff',  
-          neutral: '#2d3436',           // ink
-          'base-100': '#e0e5ec',        // chassis (Base background)
-          'base-200': '#d1d9e6',        // recessed
-          'base-300': '#babecc',        // border shadow color
-          info: '#4a5568',              // ink-muted
-          success: '#22c55e',           // standard green for LED success
-          warning: '#D99B21',           // legacy ochre
-          error: '#ff4757',             // safety orange used for alerts
-          '--rounded-box': '1rem',      // xl mechanical edges
-          '--rounded-btn': '0.5rem',    // md radius for tactile buttons
+          // DaisyUI theme remapped to the Neo-Brutalist palette
+          primary: '#1E1E1E',           // ink
+          'primary-content': '#FFFFFF', // white
+          secondary: '#6B7280',         // ink-muted
+          'secondary-content': '#FFFFFF', 
+          accent: '#E04F43',            // brutalist red
+          'accent-content': '#FFFFFF',  
+          neutral: '#1E1E1E',           // ink
+          'base-100': '#FFFFFF',        // panel (white)
+          'base-200': '#F4F5F0',        // chassis (off-white)
+          'base-300': '#1E1E1E',        // ink borders
+          info: '#6B7280',              
+          success: '#22c55e',           
+          warning: '#D99B21',           
+          error: '#E04F43',             
+          
+          // Flattening out DaisyUI's default curves for structural 90-degree corners
+          '--rounded-box': '4px',      
+          '--rounded-btn': '4px',       
         },
       },
     ],
