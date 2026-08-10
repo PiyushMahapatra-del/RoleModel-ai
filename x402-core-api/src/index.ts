@@ -39,9 +39,9 @@ function tooLong(...values: (string | undefined)[]): boolean {
 }
 
 // ════════════════════════════════════════════════════════════════════
-// 1. RESUME-TO-ROLE MATCHER — POST /resume-match
+// 1. RESUME-TO-ROLE MATCHER — POST /api/resume-match
 // ════════════════════════════════════════════════════════════════════
-app.post('/resume-match', async (c) => {
+app.post('/api/resume-match', async (c) => {
   try {
     const body = await c.req.json();
     const { resumeText, jobDescription } = body;
@@ -61,9 +61,9 @@ app.post('/resume-match', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 2. JOB DESCRIPTION & OA EXTRACTOR — POST /job-extract
+// 2. JOB DESCRIPTION & OA EXTRACTOR — POST /api/job-extract
 // ════════════════════════════════════════════════════════════════════
-app.post('/job-extract', async (c) => {
+app.post('/api/job-extract', async (c) => {
   try {
     const body = await c.req.json();
     const { rawText } = body;
@@ -83,9 +83,9 @@ app.post('/job-extract', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 3. OA CODE DEBUGGER & EDGE-CASE AUDITOR — POST /code-debug
+// 3. OA CODE DEBUGGER & EDGE-CASE AUDITOR — POST /api/code-debug
 // ════════════════════════════════════════════════════════════════════
-app.post('/code-debug', async (c) => {
+app.post('/api/code-debug', async (c) => {
   try {
     const body = await c.req.json();
     const { code, language, context } = body;
@@ -109,9 +109,9 @@ app.post('/code-debug', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 4. RESUME RATER & IMPACT ENHANCER — POST /resume-rate
+// 4. RESUME RATER & IMPACT ENHANCER — POST /api/resume-rate
 // ════════════════════════════════════════════════════════════════════
-app.post('/resume-rate', async (c) => {
+app.post('/api/resume-rate', async (c) => {
   try {
     const body = await c.req.json();
     const { resumeText } = body;
@@ -131,9 +131,9 @@ app.post('/resume-rate', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 5. COLD EMAIL & LINKEDIN OUTREACH GENERATOR — POST /cold-email
+// 5. COLD EMAIL & LINKEDIN OUTREACH GENERATOR — POST /api/cold-email
 // ════════════════════════════════════════════════════════════════════
-app.post('/cold-email', async (c) => {
+app.post('/api/cold-email', async (c) => {
   try {
     const body = await c.req.json();
     const { candidateProfile, recruiterDetails } = body;
@@ -153,9 +153,9 @@ app.post('/cold-email', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 6. STAR STORY TRANSFORMER — POST /star-transform
+// 6. STAR STORY TRANSFORMER — POST /api/star-transform
 // ════════════════════════════════════════════════════════════════════
-app.post('/star-transform', async (c) => {
+app.post('/api/star-transform', async (c) => {
   try {
     const body = await c.req.json();
     const { rawNotes } = body;
@@ -175,9 +175,9 @@ app.post('/star-transform', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 7. REPO README PITCH GENERATOR — POST /repo-pitch
+// 7. REPO README PITCH GENERATOR — POST /api/repo-pitch
 // ════════════════════════════════════════════════════════════════════
-app.post('/repo-pitch', async (c) => {
+app.post('/api/repo-pitch', async (c) => {
   try {
     const body = await c.req.json();
     const { projectTitle, techDescription } = body;
@@ -197,9 +197,9 @@ app.post('/repo-pitch', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 8. OA PATTERN PREDICTOR — POST /oa-predictor
+// 8. OA PATTERN PREDICTOR — POST /api/oa-predictor
 // ════════════════════════════════════════════════════════════════════
-app.post('/oa-predictor', async (c) => {
+app.post('/api/oa-predictor', async (c) => {
   try {
     const body = await c.req.json();
     const { companyName, targetRole } = body;
@@ -219,9 +219,9 @@ app.post('/oa-predictor', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 9. PROMPT-INJECTION / INPUT GUARD AUDITOR — POST /prompt-guard
+// 9. PROMPT-INJECTION / INPUT GUARD AUDITOR — POST /api/prompt-guard
 // ════════════════════════════════════════════════════════════════════
-app.post('/prompt-guard', async (c) => {
+app.post('/api/prompt-guard', async (c) => {
   try {
     const body = await c.req.json();
     const { inputText } = body;
@@ -241,9 +241,9 @@ app.post('/prompt-guard', async (c) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
-// 10. ATOMIC APPLICATION SPRINT (AGGREGATOR) — POST /atomic-app-sprint
+// 10. ATOMIC APPLICATION SPRINT (AGGREGATOR) — POST /api/atomic-app-sprint
 // ════════════════════════════════════════════════════════════════════
-app.post('/atomic-app-sprint', async (c) => {
+app.post('/api/atomic-app-sprint', async (c) => {
   try {
     const body = await c.req.json();
     const { jobPosting, resumeText } = body;
