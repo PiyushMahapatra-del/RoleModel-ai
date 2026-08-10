@@ -44,7 +44,7 @@ const RepoPitch: React.FC = () => {
   };
 
   const handleCopy = () => {
-    if (!result) return;
+    if (!result?.readmeMarkdown) return;
     navigator.clipboard.writeText(result.readmeMarkdown).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -98,11 +98,15 @@ const RepoPitch: React.FC = () => {
           <div>
             <h5 className="pp-eyebrow mb-2.5">Portfolio Highlights</h5>
             <div className="flex flex-wrap gap-1.5">
-              {result.highlights.map((h, i) => (
+              {/* Bulletproof Mapping: Falls back to an empty array if highlights is undefined */}
+              {(result?.highlights || []).map((h, i) => (
                 <span key={i} className="pp-chip-sage">
                   {h}
                 </span>
               ))}
+              {(!result?.highlights || result.highlights.length === 0) && (
+                <span className="text-sm text-black/45 italic">No highlights generated.</span>
+              )}
             </div>
           </div>
 
@@ -113,7 +117,10 @@ const RepoPitch: React.FC = () => {
                 {copied ? 'Copied' : 'Copy Markdown'}
               </button>
             </div>
-            <pre className="pp-code-block max-h-96 overflow-auto whitespace-pre-wrap">{result.readmeMarkdown}</pre>
+            {/* Bulletproof Text: Falls back if readmeMarkdown is undefined */}
+            <pre className="pp-code-block max-h-96 overflow-auto whitespace-pre-wrap">
+              {result?.readmeMarkdown || 'No markdown was returned by the AI.'}
+            </pre>
           </div>
 
           {receipt && <SettlementReceipt receipt={receipt} />}
