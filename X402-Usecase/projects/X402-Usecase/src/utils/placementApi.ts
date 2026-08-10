@@ -43,7 +43,8 @@ export interface HistoryRecord {
 }
 
 export async function fetchScanHistory(walletAddress: string): Promise<HistoryRecord[]> {
-  const response = await fetch(`${API_BASE_URL}/api/history/${encodeURIComponent(walletAddress)}`);
+  // Removed the rogue /api prefix here
+  const response = await fetch(`${API_BASE_URL}/history/${encodeURIComponent(walletAddress)}`);
   
   if (!response.ok) {
     const contentType = response.headers.get('content-type') || '';
@@ -65,7 +66,8 @@ async function recordScanHistory(
   summaryResult: string
 ): Promise<void> {
   try {
-    await fetch(`${API_BASE_URL}/api/history`, {
+    // Removed the rogue /api prefix here
+    await fetch(`${API_BASE_URL}/history`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ walletAddress, endpoint, cost, txId, summaryResult }),
@@ -87,18 +89,16 @@ async function payAndLog<TResponse>(
   summarize: (data: TResponse) => string
 ): Promise<PaidResult<TResponse>> {
   
-  // NOTE: Assuming your backend routes are prefixed with /api based on previous setup
-  const fullEndpointPath = endpointPath.startsWith('/api') ? endpointPath : `/api${endpointPath}`;
-  
+  // REMOVED the forced /api prefix entirely. We just use the exact endpointPath passed in.
   const { data, receipt } = await payAndFetchJson<TResponse>(
-    `${API_BASE_URL}${fullEndpointPath}`, 
+    `${API_BASE_URL}${endpointPath}`, 
     signer, 
     body, 
     costUsdc
   );
 
   if (receipt) {
-    void recordScanHistory(signer.address, fullEndpointPath, costUsdc, receipt.transaction, summarize(data));
+    void recordScanHistory(signer.address, endpointPath, costUsdc, receipt.transaction, summarize(data));
   }
 
   return { data, receipt };
