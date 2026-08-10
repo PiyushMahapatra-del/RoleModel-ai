@@ -9,13 +9,15 @@ export const handleProxyRequest = (targetUrl: string) => {
   return async (c: Context) => {
     try {
       // 1. Foolproof URL Construction:
-      // Ensure we explicitly append the specific feature path (e.g. /repo-pitch)
+      // Ensure we explicitly append the specific feature path WITH the required /api prefix
       const requestPath = c.req.path;
       let fullUrl = targetUrl;
       
       // If the targetUrl doesn't already contain the path, append it safely
       if (!fullUrl.endsWith(requestPath)) {
-         fullUrl = `${targetUrl.replace(/\/$/, '')}${requestPath}`;
+         // Fix: Inject /api before the request path so the Core API routes correctly
+         const apiPath = requestPath.startsWith('/api') ? requestPath : `/api${requestPath}`;
+         fullUrl = `${targetUrl.replace(/\/$/, '')}${apiPath}`;
       }
 
       console.log(`[PROXY] Incoming path: ${requestPath}`);
